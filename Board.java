@@ -33,15 +33,48 @@ public class Board {
         }
     }
     private void addHints() {
-
-
+        for (int row = 0; row < SIZE; row++) {
+            for (int col = 0; col < SIZE; col++) {
+                if (board[row][col] == MINE) {
+                    continue;
+                }
+                int minesCount = 0;
+                if (checkForMine(row - 1, col)) {
+                    minesCount++;
+                }
+                if (checkForMine(row + 1, col)) {
+                    minesCount++;
+                }
+                if (checkForMine(row, col - 1)) {
+                    minesCount++;
+                }
+                if (checkForMine(row, col + 1)) {
+                    minesCount++;
+                }
+                if (checkForMine(row - 1, col - 1)) {
+                    minesCount++;
+                }
+                if (checkForMine(row - 1, col + 1)) {
+                    minesCount++;
+                }
+                if (checkForMine(row + 1, col - 1)) {
+                    minesCount++;
+                }
+                if (checkForMine(row + 1, col + 1)) {
+                    minesCount++;
+                }
+                if (minesCount > 0) {
+                    board[row][col] = Character.forDigit(minesCount, 10);
+                }
+            }
+        }
 
     }
-
-
-
-
-
+    private boolean checkForMine(int row, int col) {
+        return row >= 0 && row < SIZE &&
+            col >= 0 && col < SIZE &&
+                board[row][col] == MINE;
+    }
     public String toString() {
         StringBuilder builder = new StringBuilder();
         for (char[] row : board) {
@@ -52,5 +85,4 @@ public class Board {
         }
         return builder.toString();
     }
-
 }
