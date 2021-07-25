@@ -1,7 +1,10 @@
 package minesweeper;
 
+import java.awt.*;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 
 public class Board {
 
@@ -9,9 +12,13 @@ public class Board {
     final char SAFE = '.';
     final int SIZE = 9;
     char[][] board;
+    Set<Point> mineLocations;
+    Set<Point> userGuesses;
 
     Board(int mines) {
         board = new char[SIZE][SIZE];
+        mineLocations = new HashSet<>();
+        userGuesses = new HashSet<>();
         fillBoardSafe();
         addMines(mines);
         addHints();
@@ -28,6 +35,7 @@ public class Board {
             int col = random.nextInt(SIZE);
             if (board[row][col] != MINE) {
                 board[row][col] = MINE;
+                mineLocations.add(new Point(row, col));
                 mines--;
             }
         }
@@ -75,14 +83,40 @@ public class Board {
             col >= 0 && col < SIZE &&
                 board[row][col] == MINE;
     }
-    public String toString() {
-        StringBuilder builder = new StringBuilder();
-        for (char[] row : board) {
-            for (char columnSquare : row) {
-                builder.append(columnSquare);
-            }
-            builder.append("\n");
+    public boolean checkForNumber(int row, int col) {
+        return board[row][col] >= '1' && board[row][col] <= '9';
+    }
+    public boolean checkForWin() {
+        return mineLocations.equals(userGuesses);
+    }
+    public void handleUserChoice(int row, int col) {
+        Point choice = new Point(row, col);
+
+        if (userGuesses.contains(choice)) {
+            userGuesses.remove(choice);
+        } else {
+            userGuesses.add(choice);
         }
+    }
+
+    public String toString() {
+        String topBottomHeader = "-|---------|\n";
+        StringBuilder builder = new StringBuilder();
+        builder.append(" |123456789|\n");
+        builder.append(topBottomHeader);
+        for (int row = 0; row < SIZE; row++) {
+            builder.append(row + 1);
+            builder.append("|");
+            for (int col = 0; col < SIZE; col++) {
+                if (board[row][col] == MINE) {
+                    builder.append(SAFE);
+                } else {
+                    builder.append(board[row][col]);
+                }
+            }
+            builder.append("|\n");
+        }
+        builder.append(topBottomHeader);
         return builder.toString();
     }
 }
