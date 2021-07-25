@@ -86,6 +86,10 @@ public class Board {
     public boolean checkForNumber(int row, int col) {
         return board[row][col] >= '1' && board[row][col] <= '9';
     }
+    public boolean checkForUserChoice(int row, int col) {
+        return userGuesses.contains(new Point(row, col));
+    }
+
     public boolean checkForWin() {
         return mineLocations.equals(userGuesses);
     }
@@ -108,7 +112,9 @@ public class Board {
             builder.append(row + 1);
             builder.append("|");
             for (int col = 0; col < SIZE; col++) {
-                if (board[row][col] == MINE) {
+                if (checkForUserChoice(row, col)) {
+                    builder.append("*");
+                } else if (board[row][col] == MINE) {
                     builder.append(SAFE);
                 } else {
                     builder.append(board[row][col]);
