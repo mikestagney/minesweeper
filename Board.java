@@ -20,56 +20,38 @@ public class Board {
         mineLocations = new HashSet<>();
         userGuesses = new HashSet<>();
         fillBoardSafe();
-        addMines(mines);
-        addHints();
+        createMineLocations(mines);
+        addNumbers();
     }
     private void fillBoardSafe() {
         for (char[] row : board) {
             Arrays.fill(row, SAFE );
         }
     }
-    private void addMines(int mines) {
+    private void createMineLocations(int mines) {
         Random random = new Random();
         while (mines > 0) {
             int row = random.nextInt(SIZE);
             int col = random.nextInt(SIZE);
-            if (board[row][col] != MINE) {
-                board[row][col] = MINE;
+            if (!checkForMine(row, col)) {
                 mineLocations.add(new Point(row, col));
                 mines--;
             }
         }
     }
-    private void addHints() {
+    private void addNumbers() {
         for (int row = 0; row < SIZE; row++) {
             for (int col = 0; col < SIZE; col++) {
-                if (board[row][col] == MINE) {
+                if (checkForMine(row, col)) {
                     continue;
                 }
                 int minesCount = 0;
-                if (checkForMine(row - 1, col)) {
-                    minesCount++;
-                }
-                if (checkForMine(row + 1, col)) {
-                    minesCount++;
-                }
-                if (checkForMine(row, col - 1)) {
-                    minesCount++;
-                }
-                if (checkForMine(row, col + 1)) {
-                    minesCount++;
-                }
-                if (checkForMine(row - 1, col - 1)) {
-                    minesCount++;
-                }
-                if (checkForMine(row - 1, col + 1)) {
-                    minesCount++;
-                }
-                if (checkForMine(row + 1, col - 1)) {
-                    minesCount++;
-                }
-                if (checkForMine(row + 1, col + 1)) {
-                    minesCount++;
+                for (int i = row - 1; i < row + 2; i++) {
+                    for (int j = col - 1; j < col + 2; j++) {
+                        if (checkForMine(i, j)) {
+                            minesCount++;
+                        }
+                    }
                 }
                 if (minesCount > 0) {
                     board[row][col] = Character.forDigit(minesCount, 10);
@@ -79,14 +61,12 @@ public class Board {
 
     }
     private boolean checkForMine(int row, int col) {
-        return row >= 0 && row < SIZE &&
-            col >= 0 && col < SIZE &&
-                board[row][col] == MINE;
+        return mineLocations.contains(new Point(row, col));
     }
     public boolean checkForNumber(int row, int col) {
         return board[row][col] >= '1' && board[row][col] <= '9';
     }
-    public boolean checkForUserChoice(int row, int col) {
+    public boolean checkUserChoice(int row, int col) {
         return userGuesses.contains(new Point(row, col));
     }
 
@@ -112,10 +92,8 @@ public class Board {
             builder.append(row + 1);
             builder.append("|");
             for (int col = 0; col < SIZE; col++) {
-                if (checkForUserChoice(row, col)) {
+                if (checkUserChoice(row, col)) {
                     builder.append("*");
-                } else if (board[row][col] == MINE) {
-                    builder.append(SAFE);
                 } else {
                     builder.append(board[row][col]);
                 }
