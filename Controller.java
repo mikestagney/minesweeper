@@ -22,7 +22,7 @@ public class Controller {
             System.out.println("Set/unset mines marks or claim a cell as free:");
 
             String userChoice = "";
-            while (!userChoice.matches("\\d\\s+\\d\\s+(free|mine)")) {
+            while (!userChoice.matches("\\d\\s\\d\\s(free|mine)")) {
                 userChoice = input.nextLine();
             }
             String[] coordinates = userChoice.split(" ");
@@ -30,7 +30,7 @@ public class Controller {
             int col = Integer.parseInt(coordinates[0]);
             String type = coordinates[2];
             if (isFirstMove) {
-                Point firstSafeMove = new Point(row, col);
+                Point firstSafeMove = new Point(row - 1, col - 1);
                 board.finishBoardSetup(firstSafeMove);
                 isFirstMove = false;
             }

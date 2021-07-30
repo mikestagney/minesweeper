@@ -101,8 +101,8 @@ public class Board {
             builder.append(row + 1);
             builder.append("|");
             for (int col = 0; col < SIZE; col++) {
-                if (checkUserChoice(row, col)) {
-                    builder.append("*");
+                if (checkForMine(row, col)) {
+                    builder.append("X");
                 } else {
                     builder.append(board[row][col]);
                 }
