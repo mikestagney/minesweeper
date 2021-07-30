@@ -1,5 +1,6 @@
 package minesweeper;
 
+import java.awt.*;
 import java.util.Scanner;
 
 public class Controller {
@@ -15,25 +16,29 @@ public class Controller {
     }
 
     public void runGame() {
-        while (!board.checkForWin()) {
+        boolean isFirstMove = true;
+        do {
             System.out.print(board);
-            System.out.println("Set/delete mines marks (x and y coordinates):");
-            boolean inputOkay = false;
-            int row = 1;
-            int col = 1;
-            while (!inputOkay) {
-                String[] coordinates = input.nextLine().split(" ");
-                row = Integer.parseInt(coordinates[1]);
-                col = Integer.parseInt(coordinates[0]);
-                if (!board.checkForNumber(row - 1, col - 1)) {
-                    inputOkay = true;
-                } else {
-                    System.out.println("There is a number there");
-                }
+            System.out.println("Set/unset mines marks or claim a cell as free:");
+
+            String userChoice = "";
+            while (!userChoice.matches("\\d\\s+\\d\\s+(free|mine)")) {
+                userChoice = input.nextLine();
             }
+            String[] coordinates = userChoice.split(" ");
+            int row = Integer.parseInt(coordinates[1]);
+            int col = Integer.parseInt(coordinates[0]);
+            String type = coordinates[2];
+            if (isFirstMove) {
+                Point firstSafeMove = new Point(row, col);
+                board.finishBoardSetup(firstSafeMove);
+                isFirstMove = false;
+            }
+
             board.handleUserChoice(row - 1, col - 1);
 
-        }
+        } while (!board.checkForWin());
+
         System.out.println(board);
         System.out.println("Congratulations! You found all the mines!");
     }

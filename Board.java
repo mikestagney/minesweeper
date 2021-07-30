@@ -12,6 +12,7 @@ public class Board {
     final char SAFE = '.';
     final int SIZE = 9;
     char[][] board;
+    int numberMines;
     Set<Point> mineLocations;
     Set<Point> userGuesses;
 
@@ -19,23 +20,31 @@ public class Board {
         board = new char[SIZE][SIZE];
         mineLocations = new HashSet<>();
         userGuesses = new HashSet<>();
+        numberMines = mines;
         fillBoardSafe();
-        createMineLocations(mines);
-        addNumbers();
+
     }
     private void fillBoardSafe() {
         for (char[] row : board) {
             Arrays.fill(row, SAFE );
         }
     }
-    private void createMineLocations(int mines) {
+    public void finishBoardSetup(Point firstMove) {
+        mineLocations.add(firstMove);
+        createMineLocations();
+        mineLocations.remove(firstMove);
+        addNumbers();
+    }
+
+    private void createMineLocations() {
         Random random = new Random();
-        while (mines > 0) {
+        int minesPlaced = 0;
+        while (minesPlaced < numberMines) {
             int row = random.nextInt(SIZE);
             int col = random.nextInt(SIZE);
             if (!checkForMine(row, col)) {
                 mineLocations.add(new Point(row, col));
-                mines--;
+                minesPlaced++;
             }
         }
     }
