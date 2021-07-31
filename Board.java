@@ -10,14 +10,19 @@ public class Board {
 
     final char MINE = 'X';
     final char SAFE = '.';
+    final char MARKED = '*';
+    final char EXPLORED = '/';
     final int SIZE = 9;
     char[][] board;
+    char[][] displayBoard;
     int numberMines;
     Set<Point> mineLocations;
     Set<Point> userGuesses;
+    boolean hitMine = false;
 
     Board(int mines) {
         board = new char[SIZE][SIZE];
+        displayBoard = new char[SIZE][SIZE];
         mineLocations = new HashSet<>();
         userGuesses = new HashSet<>();
         numberMines = mines;
@@ -25,9 +30,11 @@ public class Board {
 
     }
     private void fillBoardSafe() {
-        for (char[] row : board) {
-            Arrays.fill(row, SAFE );
+        for (int i = 0; i < SIZE; i++) {
+            Arrays.fill(board[i], SAFE );
+            Arrays.fill(displayBoard[i], SAFE);
         }
+
     }
     public void finishBoardSetup(Point firstMove) {
         mineLocations.add(firstMove);
@@ -80,15 +87,60 @@ public class Board {
     }
 
     public boolean checkForWin() {
+        if (mineLocations.equals(userGuesses)) {
+            addAllMinesToDisplay();
+        }
+
         return mineLocations.equals(userGuesses);
     }
-    public void handleUserChoice(int row, int col) {
+
+
+    public void handleUserChoice(int row, int col, String moveType) {
         Point choice = new Point(row, col);
 
-        if (userGuesses.contains(choice)) {
-            userGuesses.remove(choice);
-        } else {
-            userGuesses.add(choice);
+        if (moveType.equals("mine")) {
+            if (userGuesses.contains(choice)) {
+                userGuesses.remove(choice);
+                displayBoard[row][col] = SAFE;
+            } else {
+                userGuesses.add(choice);
+                displayBoard[row][col] = MARKED;
+            }
+        }
+        if (moveType.equals("free")) {
+            if (checkForMine(row, col)) {
+                hitMine = true;
+                addAllMinesToDisplay();
+            } else if (checkForNumber(row, col)) {
+                displayBoard[row][col] = board[row][col];
+            } else {
+                clearFreeCells(row, col);
+            }
+        }
+    }
+    private void clearFreeCells(int row, int col) {
+        if (row < 0 || col < 0 || row >= SIZE || col >= SIZE) {
+            return;
+        }
+        if (checkForMine(row, col)) {
+            return;
+        }
+        if (checkForNumber(row, col)) {
+            displayBoard[row][col] = board[row][col];
+            return;
+        }
+        if (board[row][col] == SAFE) {
+            displayBoard[row][col] = EXPLORED;
+            board[row][col] = EXPLORED;
+            clearFreeCells(row - 1, col);
+            clearFreeCells(row, col - 1);
+            clearFreeCells(row + 1, col);
+            clearFreeCells(row, col + 1);
+        }
+    }
+    private void addAllMinesToDisplay() {
+        for (Point mine : mineLocations) {
+            displayBoard[mine.x][mine.y] = MINE;
         }
     }
 
@@ -101,11 +153,7 @@ public class Board {
             builder.append(row + 1);
             builder.append("|");
             for (int col = 0; col < SIZE; col++) {
-                if (checkForMine(row, col)) {
-                    builder.append("X");
-                } else {
-                    builder.append(board[row][col]);
-                }
+                builder.append(displayBoard[row][col]);
             }
             builder.append("|\n");
         }

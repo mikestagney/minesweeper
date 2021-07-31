@@ -28,19 +28,24 @@ public class Controller {
             String[] coordinates = userChoice.split(" ");
             int row = Integer.parseInt(coordinates[1]);
             int col = Integer.parseInt(coordinates[0]);
-            String type = coordinates[2];
+            String moveType = coordinates[2];
             if (isFirstMove) {
                 Point firstSafeMove = new Point(row - 1, col - 1);
                 board.finishBoardSetup(firstSafeMove);
                 isFirstMove = false;
             }
 
-            board.handleUserChoice(row - 1, col - 1);
+            board.handleUserChoice(row - 1, col - 1, moveType);
 
-        } while (!board.checkForWin());
+        } while (!board.checkForWin() && !board.hitMine);
 
         System.out.println(board);
-        System.out.println("Congratulations! You found all the mines!");
+        if (board.hitMine) {
+            System.out.println("You stepped on a mine and failed!");
+        } else {
+            System.out.println("Congratulations! You found all the mines!");
+        }
+
     }
 
 
