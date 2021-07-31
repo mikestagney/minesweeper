@@ -90,10 +90,8 @@ public class Board {
         if (mineLocations.equals(userGuesses)) {
             addAllMinesToDisplay();
         }
-
         return mineLocations.equals(userGuesses);
     }
-
 
     public void handleUserChoice(int row, int col, String moveType) {
         Point choice = new Point(row, col);
@@ -122,9 +120,6 @@ public class Board {
         if (row < 0 || col < 0 || row >= SIZE || col >= SIZE) {
             return;
         }
-        if (checkForMine(row, col)) {
-            return;
-        }
         if (checkForNumber(row, col)) {
             displayBoard[row][col] = board[row][col];
             return;
@@ -136,6 +131,10 @@ public class Board {
             clearFreeCells(row, col - 1);
             clearFreeCells(row + 1, col);
             clearFreeCells(row, col + 1);
+            clearFreeCells(row + 1, col + 1);
+            clearFreeCells(row + 1, col - 1);
+            clearFreeCells(row - 1, col + 1);
+            clearFreeCells(row - 1, col - 1);
         }
     }
     private void addAllMinesToDisplay() {

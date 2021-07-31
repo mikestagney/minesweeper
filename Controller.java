@@ -34,9 +34,7 @@ public class Controller {
                 board.finishBoardSetup(firstSafeMove);
                 isFirstMove = false;
             }
-
             board.handleUserChoice(row - 1, col - 1, moveType);
-
         } while (!board.checkForWin() && !board.hitMine);
 
         System.out.println(board);
