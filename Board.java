@@ -13,7 +13,7 @@ public class Board {
     final char MARKED = '*';
     final char EXPLORED = '/';
     final int SIZE = 9;
-    char[][] board;
+    char[][] gameStateBoard;
     char[][] displayBoard;
     int numberMines;
     Set<Point> mineLocations;
@@ -21,7 +21,7 @@ public class Board {
     boolean hitMine = false;
 
     Board(int mines) {
-        board = new char[SIZE][SIZE];
+        gameStateBoard = new char[SIZE][SIZE];
         displayBoard = new char[SIZE][SIZE];
         mineLocations = new HashSet<>();
         userGuesses = new HashSet<>();
@@ -31,10 +31,9 @@ public class Board {
     }
     private void fillBoardSafe() {
         for (int i = 0; i < SIZE; i++) {
-            Arrays.fill(board[i], SAFE );
+            Arrays.fill(gameStateBoard[i], SAFE );
             Arrays.fill(displayBoard[i], SAFE);
         }
-
     }
     public void finishBoardSetup(Point firstMove) {
         mineLocations.add(firstMove);
@@ -70,7 +69,7 @@ public class Board {
                     }
                 }
                 if (minesCount > 0) {
-                    board[row][col] = Character.forDigit(minesCount, 10);
+                    gameStateBoard[row][col] = Character.forDigit(minesCount, 10);
                 }
             }
         }
@@ -80,19 +79,14 @@ public class Board {
         return mineLocations.contains(new Point(row, col));
     }
     public boolean checkForNumber(int row, int col) {
-        return board[row][col] >= '1' && board[row][col] <= '9';
+        return gameStateBoard[row][col] >= '1' && gameStateBoard[row][col] <= '9';
     }
-    public boolean checkUserChoice(int row, int col) {
-        return userGuesses.contains(new Point(row, col));
-    }
-
     public boolean checkForWin() {
         if (mineLocations.equals(userGuesses)) {
             addAllMinesToDisplay();
         }
         return mineLocations.equals(userGuesses);
     }
-
     public void handleUserChoice(int row, int col, String moveType) {
         Point choice = new Point(row, col);
 
@@ -110,7 +104,7 @@ public class Board {
                 hitMine = true;
                 addAllMinesToDisplay();
             } else if (checkForNumber(row, col)) {
-                displayBoard[row][col] = board[row][col];
+                displayBoard[row][col] = gameStateBoard[row][col];
             } else {
                 clearFreeCells(row, col);
             }
@@ -121,12 +115,12 @@ public class Board {
             return;
         }
         if (checkForNumber(row, col)) {
-            displayBoard[row][col] = board[row][col];
+            displayBoard[row][col] = gameStateBoard[row][col];
             return;
         }
-        if (board[row][col] == SAFE) {
+        if (gameStateBoard[row][col] == SAFE) {
             displayBoard[row][col] = EXPLORED;
-            board[row][col] = EXPLORED;
+            gameStateBoard[row][col] = EXPLORED;
             clearFreeCells(row - 1, col);
             clearFreeCells(row, col - 1);
             clearFreeCells(row + 1, col);

@@ -41,12 +41,7 @@ public class Controller {
         if (board.hitMine) {
             System.out.println("You stepped on a mine and failed!");
         } else {
-            System.out.println("Congratulations! You found all the mines!");
+                System.out.println("Congratulations! You found all the mines!");
         }
-
     }
-
-
-
-
 }
