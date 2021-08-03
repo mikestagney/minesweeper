@@ -95,8 +95,12 @@ public class Board {
                 userGuesses.remove(choice);
                 displayBoard[row][col] = SAFE;
             } else {
-                userGuesses.add(choice);
-                displayBoard[row][col] = MARKED;
+                if (checkForNumber(row, col)) {
+                    System.out.println("Can't put a mine on a number!");
+                } else {
+                    userGuesses.add(choice);
+                    displayBoard[row][col] = MARKED;
+                }
             }
         }
         if (moveType.equals("free")) {
