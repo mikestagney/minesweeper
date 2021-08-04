@@ -11,7 +11,7 @@ public class Board {
     final char MINE = 'X';
     final char SAFE = '.';
     final char MARKED = '*';
-    final char EXPLORED = '/';
+    final char EXPLORED = ' ';
     final int SIZE = 9;
     char[][] gameStateBoard;
     char[][] displayBoard;
@@ -158,19 +158,25 @@ public class Board {
     }
 
     public String toString() {
-        String topBottomHeader = "-|---------|\n";
+        String topBottomHeader = "-|---|---|---|---|---|---|---|---|---|\n";
+        String middleDivider = "-|-----------------------------------|\n";
+        String blankSpace = " ";
         StringBuilder builder = new StringBuilder();
-        builder.append(" |123456789|\n");
+        builder.append(" | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |\n");
         builder.append(topBottomHeader);
         for (int row = 0; row < SIZE; row++) {
             builder.append(row + 1);
             builder.append("|");
             for (int col = 0; col < SIZE; col++) {
+                builder.append(blankSpace);
                 builder.append(displayBoard[row][col]);
+                builder.append(blankSpace);
+                builder.append("|");
             }
-            builder.append("|\n");
+            builder.append("\n");
+            builder.append(topBottomHeader);
         }
-        builder.append(topBottomHeader);
+        //builder.append(topBottomHeader);
         return builder.toString();
     }
 }
