@@ -35,7 +35,7 @@ public class Controller {
                 isFirstMove = false;
             }
             board.handleUserChoice(row - 1, col - 1, moveType);
-        } while (!board.checkForWin() && !board.hitMine);
+        } while (!board.checkForWin() && !board.hitMine && !board.allFreeCellsUncovered());
 
         System.out.println(board);
         if (board.hitMine) {

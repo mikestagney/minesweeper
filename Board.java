@@ -140,6 +140,16 @@ public class Board {
             displayBoard[mine.x][mine.y] = MINE;
         }
     }
+    public boolean allFreeCellsUncovered() {
+        for (int row = 0; row < SIZE; row++) {
+            for (int col = 0; col < SIZE; col++) {
+                if (displayBoard[row][col] == SAFE && !checkForMine(row, col)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 
     public String toString() {
         String topBottomHeader = "-|---------|\n";
