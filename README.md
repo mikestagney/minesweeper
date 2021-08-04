@@ -56,3 +56,4 @@ The following symbols represent each cell's state:
 ### Sample input and output:
 
 (screenshots coming soon)
+
