@@ -93,10 +93,15 @@ public class Board {
         if (moveType.equals("mine")) {
             if (userGuesses.contains(choice)) {
                 userGuesses.remove(choice);
-                displayBoard[row][col] = SAFE;
+                if (checkForNumber(row, col) || gameStateBoard[row][col] == EXPLORED) {
+                    displayBoard[row][col] = gameStateBoard[row][col];
+                } else {
+                    displayBoard[row][col] = SAFE;
+                }
             } else {
-                if (checkForNumber(row, col)) {
-                    System.out.println("Can't put a mine on a number!");
+                if (displayBoard[row][col] == EXPLORED ||
+                        (displayBoard[row][col] >= '1' && displayBoard[row][col] <= '9')) {
+                            System.out.println("Can't put a mine here!");
                 } else {
                     userGuesses.add(choice);
                     displayBoard[row][col] = MARKED;
@@ -148,6 +153,7 @@ public class Board {
                 }
             }
         }
+        addAllMinesToDisplay();
         return true;
     }
 
