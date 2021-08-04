@@ -1,6 +1,7 @@
 package minesweeper;
 
 import java.awt.*;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class Controller {
@@ -19,16 +20,16 @@ public class Controller {
         boolean isFirstMove = true;
         do {
             System.out.print(board);
-            System.out.println("Set/unset mines marks or claim a cell as free:");
+            System.out.println("Flag/unflag for a mine or open a cell:");
 
             String userChoice = "";
-            while (!userChoice.matches("\\d\\s\\d\\s(free|mine)")) {
+            while (!userChoice.matches("(?i)\\d\\s\\d\\s(open|flag)")) {
                 userChoice = input.nextLine();
             }
             String[] coordinates = userChoice.split(" ");
             int row = Integer.parseInt(coordinates[1]);
             int col = Integer.parseInt(coordinates[0]);
-            String moveType = coordinates[2];
+            String moveType = coordinates[2].toLowerCase();
             if (isFirstMove) {
                 Point firstSafeMove = new Point(row - 1, col - 1);
                 board.finishBoardSetup(firstSafeMove);

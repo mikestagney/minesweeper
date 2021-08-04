@@ -90,14 +90,15 @@ public class Board {
     public void handleUserChoice(int row, int col, String moveType) {
         Point choice = new Point(row, col);
 
-        if (moveType.equals("mine")) {
+        if (moveType.equals("flag")) {
             if (userGuesses.contains(choice)) {
                 userGuesses.remove(choice);
+                /*
                 if (checkForNumber(row, col) || gameStateBoard[row][col] == EXPLORED) {
                     displayBoard[row][col] = gameStateBoard[row][col];
-                } else {
+                } else {*/
                     displayBoard[row][col] = SAFE;
-                }
+                //}
             } else {
                 if (displayBoard[row][col] == EXPLORED ||
                         (displayBoard[row][col] >= '1' && displayBoard[row][col] <= '9')) {
@@ -108,7 +109,7 @@ public class Board {
                 }
             }
         }
-        if (moveType.equals("free")) {
+        if (moveType.equals("open")) {
             if (checkForMine(row, col)) {
                 hitMine = true;
                 addAllMinesToDisplay();
@@ -158,12 +159,11 @@ public class Board {
     }
 
     public String toString() {
-        String topBottomHeader = "-|---|---|---|---|---|---|---|---|---|\n";
-        String middleDivider = "-|-----------------------------------|\n";
+        String divider = "-|---|---|---|---|---|---|---|---|---|\n";
         String blankSpace = " ";
         StringBuilder builder = new StringBuilder();
         builder.append(" | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |\n");
-        builder.append(topBottomHeader);
+        builder.append(divider);
         for (int row = 0; row < SIZE; row++) {
             builder.append(row + 1);
             builder.append("|");
@@ -174,9 +174,8 @@ public class Board {
                 builder.append("|");
             }
             builder.append("\n");
-            builder.append(topBottomHeader);
+            builder.append(divider);
         }
-        //builder.append(topBottomHeader);
         return builder.toString();
     }
 }
