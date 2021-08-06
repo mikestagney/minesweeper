@@ -17,14 +17,14 @@ public class Board {
     char[][] displayBoard;
     int numberMines;
     Set<Point> mineLocations;
-    Set<Point> userGuesses;
+    Set<Point> userFlaggedLocations;
     boolean hitMine = false;
 
     Board(int mines) {
         gameStateBoard = new char[SIZE][SIZE];
         displayBoard = new char[SIZE][SIZE];
         mineLocations = new HashSet<>();
-        userGuesses = new HashSet<>();
+        userFlaggedLocations = new HashSet<>();
         numberMines = mines;
         fillBoardSafe();
 
@@ -82,29 +82,24 @@ public class Board {
         return gameStateBoard[row][col] >= '1' && gameStateBoard[row][col] <= '9';
     }
     public boolean checkForWin() {
-        if (mineLocations.equals(userGuesses)) {
+        if (mineLocations.equals(userFlaggedLocations)) {
             addAllMinesToDisplay();
         }
-        return mineLocations.equals(userGuesses);
+        return mineLocations.equals(userFlaggedLocations);
     }
     public void handleUserChoice(int row, int col, String moveType) {
         Point choice = new Point(row, col);
 
         if (moveType.equals("flag")) {
-            if (userGuesses.contains(choice)) {
-                userGuesses.remove(choice);
-                /*
-                if (checkForNumber(row, col) || gameStateBoard[row][col] == EXPLORED) {
-                    displayBoard[row][col] = gameStateBoard[row][col];
-                } else {*/
-                    displayBoard[row][col] = SAFE;
-                //}
+            if (userFlaggedLocations.contains(choice)) {
+                userFlaggedLocations.remove(choice);
+                displayBoard[row][col] = SAFE;
             } else {
                 if (displayBoard[row][col] == EXPLORED ||
                         (displayBoard[row][col] >= '1' && displayBoard[row][col] <= '9')) {
                             System.out.println("Can't put a mine here!");
                 } else {
-                    userGuesses.add(choice);
+                    userFlaggedLocations.add(choice);
                     displayBoard[row][col] = MARKED;
                 }
             }

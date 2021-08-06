@@ -12,10 +12,10 @@ regular expressions used to valid user input
 #### The directory contains 3 files:
 
 * Main.java - creates GameController object and starts runGame method
-* Controller.java - create board object, handles user input and main game loop
+* Controller.java - create board object, handles user input and runs the main game loop
 * Board.java - keeps track of game state and contains methods to handle user choices
 
-Seventeenth project created for JetBrains Academy Java Developer course - hard level project.
+Seventeenth project created for JetBrains Academy Java Developer course - medium level project.
 
 ### How to Play
 
@@ -33,25 +33,25 @@ The player loses if a mine is uncovered.
 
 The input syntax is:
 
-> 3 5 free
+> 3 5 open
 
 (uncover cell at column 3, row 5)
 
-> 6 4 mine
+> 6 4 flag
 
 (flag cell at column 6, row 4)
 
 The following symbols represent each cell's state:
 
-* . as covered cells
+* . for covered cells
 
-* / as uncovered free cells without mines around it
+* An empty space for uncovered free cells without mines around it
 
-* Numbers from 1 to 8 as uncovered free cells with 1 to 8 mines around them
+* Numbers from 1 to 8 for uncovered free cells with 1 to 8 mines around them
 
-* X as mines (only displayed if the player has uncovered a mine)
+* X for mines (only displayed if the player has uncovered a mine)
 
-* \* as uncovered flagged cells
+* \* for uncovered flagged cells
 
 ### Sample input and output:
 

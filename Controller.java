@@ -1,7 +1,6 @@
 package minesweeper;
 
 import java.awt.*;
-import java.util.Locale;
 import java.util.Scanner;
 
 public class Controller {
@@ -20,7 +19,7 @@ public class Controller {
         boolean isFirstMove = true;
         do {
             System.out.print(board);
-            System.out.println("Flag/unflag for a mine or open a cell:");
+            System.out.println("Open a cell or flag/unflag for a mine:");
 
             String userChoice = "";
             while (!userChoice.matches("(?i)\\d\\s\\d\\s(open|flag)")) {
