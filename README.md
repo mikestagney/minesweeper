@@ -1,3 +1,4 @@
+
 # Minesweeper
 Command line version of classic Minesweeper game
 
@@ -54,6 +55,9 @@ The following symbols represent each cell's state:
 * \* for uncovered flagged cells
 
 ### Sample input and output:
+<img width="2560" alt="game 1 shot 1" src="https://user-images.githubusercontent.com/49824414/128778450-e347bc74-68c3-4fed-9bf5-7c4220dc8cb7.png">
+<img width="2399" alt="game 1 shot 2" src="https://user-images.githubusercontent.com/49824414/128778478-ae0b2dc2-5733-41bf-ad9b-ea49b60f056c.png">
+
 How many mines do you want on the field?\
 5   
     1    2    3    4    5   6    7   8   9  \
