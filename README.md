@@ -4,39 +4,39 @@ Command line version of the classic Minesweeper game
 
 ## Things learned
 
-Recursive function used to uncover the free and numbered cells
+Recursive function used to uncover the safe and numbered cells
 
-Regular expressions used to valid user input
+Regular expressions used to validate user input
 
 ### Details
 
 #### The directory contains 3 files:
 
 * Main.java - creates GameController object and starts runGame method
-* Controller.java - create board object, handles user input and runs the main game loop
-* Board.java - keeps track of game state and contains methods to handle user choices
+* Controller.java - creates Board object, handles user input and runs the main game loop
+* Board.java - keeps track of game state and contains all the methods needed to handle user choices
 
 Seventeenth project created for JetBrains Academy Java Developer course - medium level project.
 
 ### How to Play
 
-User selects how many mines they want on the board.
+The game starts when the user selects how many mines they want on the board.
 
-On a 9 X 9 grid, the player selects a cell, typing 1 - 9 for the column and row.
+On a 9 X 9 grid, the player then selects a cell, typing 1 - 9 for the column and row.
 
-The first cell selected will never contain a mine. Mines are then added at random.
+The first cell selected will never contain a mine. Mines are then added to the board at random.
 
-The player can either flag the cell for a mine or uncover it.
+The player can either open the cell or flag it for a mine.
 
-To win, all the mines are flagged or all free cells are uncovered.
+To win, either all mines are flagged or all free cells are opened.
 
-The player loses if a mine is uncovered.
+The player loses if a cell containing a mine is opened.
 
 The input syntax is:
 
 > 3 5 open
 
-(uncover cell at column 3, row 5)
+(open cell at column 3, row 5)
 
 > 6 4 flag
 
@@ -46,13 +46,13 @@ The following symbols represent each cell's state:
 
 * . for covered cells
 
-* An empty space for uncovered free cells without mines around it
+* An empty space for open free cells without mines around it
 
-* Numbers from 1 to 8 for uncovered free cells with 1 to 8 mines around them
+* Numbers from 1 to 8 for open free cells with 1 to 8 mines around them
 
-* X for mines (only displayed if the player has uncovered a mine)
+* X for mines (only displayed at the end of the game)
 
-* \* for uncovered flagged cells
+* \* for flagged cells
 
 ## Sample input and output:
 
